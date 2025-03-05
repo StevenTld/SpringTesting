@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 import java.time.LocalDate;
 
@@ -32,4 +33,12 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "academic_year_id")
     private AcademicYear academicYear;
+
+    /**
+     * Lien avec l'utilisateur.
+     * Un étudiant est lié à un seul compte utilisateur.
+     */
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

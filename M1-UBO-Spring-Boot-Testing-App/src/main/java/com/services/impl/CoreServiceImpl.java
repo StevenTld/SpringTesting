@@ -42,10 +42,6 @@ public class CoreServiceImpl {
             coreInfo.setAcademicYear(null);
         }
 
-        // Pour l'instant, les listes pour groupes, formations et modules sont des stubs
-        coreInfo.setGroups(List.of());
-        coreInfo.setFormations(List.of());
-        coreInfo.setModules(List.of());
 
         return coreInfo;
     }

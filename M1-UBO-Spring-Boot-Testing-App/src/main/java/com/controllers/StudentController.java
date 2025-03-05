@@ -1,6 +1,7 @@
 package com.controllers;
 
 import com.dtos.StudentDTO;
+import com.dtos.StudentUserDTO;
 import com.dtos.ValidationDTO;
 import com.services.impl.StudentServiceImpl;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 public class StudentController {
 
     private final StudentServiceImpl studentService;
@@ -34,8 +35,8 @@ public class StudentController {
      * Crée un nouvel étudiant.
      */
     @PostMapping
-    public StudentDTO createStudent(@RequestBody StudentDTO dto) {
-        return studentService.createStudent(dto);
+    public StudentDTO createStudent(@RequestBody StudentUserDTO dto) {
+        return studentService.createStudentWithUser(dto);
     }
 
     /**

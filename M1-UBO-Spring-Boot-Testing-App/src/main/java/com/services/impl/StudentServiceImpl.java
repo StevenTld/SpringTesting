@@ -1,12 +1,17 @@
 package com.services.impl;
 
 import com.dtos.StudentDTO;
-import com.dtos.ValidationDTO;
+import com.dtos.UserDTO;
+import com.dtos.StudentUserDTO;
 import com.entities.AcademicYear;
+import com.entities.User;
 import com.entities.Student;
 import com.mappers.StudentMapper;
+import com.mappers.UserMapper;
 import com.repositories.AcademicYearRepository;
 import com.repositories.StudentRepository;
+import com.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +26,17 @@ public class StudentServiceImpl {
     private final StudentRepository studentRepository;
     private final AcademicYearRepository academicYearRepository;
     private final StudentMapper studentMapper;
+    private final UserMapper userMapper;
+    private final UserRepository userRepository;
 
-    public StudentServiceImpl(StudentRepository studentRepository, AcademicYearRepository academicYearRepository, StudentMapper studentMapper) {
+
+
+    public StudentServiceImpl(StudentRepository studentRepository, AcademicYearRepository academicYearRepository, StudentMapper studentMapper, UserRepository userRepository, UserMapper userMapper) {
         this.studentRepository = studentRepository;
         this.academicYearRepository = academicYearRepository;
         this.studentMapper = studentMapper;
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     /**
@@ -47,12 +58,47 @@ public class StudentServiceImpl {
     }
 
     /**
-     * Crée un nouvel étudiant.
+     * Crée un nouvel étudiant avec un compte utilisateur associé.
      */
-    public StudentDTO createStudent(StudentDTO dto) {
-        Student entity = studentMapper.toEntity(dto);
-        Student saved = studentRepository.save(entity);
-        return studentMapper.toDTO(saved);
+    @Transactional
+    public StudentDTO createStudentWithUser(StudentUserDTO dto) {
+        // Vérifier si l'email est déjà utilisé
+        if (userRepository.existsByEmail(dto.getMail())) {
+            throw new RuntimeException("Cet email est déjà utilisé");
+        }
+
+        // Créer le UserDTO à partir du StudentUserDTO
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(dto.getMail());
+        userDTO.setPassword(dto.getPassword());
+
+        // Utiliser le mapper pour convertir en entité User
+        User user = userMapper.toEntity(userDTO);
+
+        // Sauvegarder l'utilisateur
+        User savedUser = userRepository.save(user);
+
+        // Créer le StudentDTO à partir du StudentUserDTO
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setFirstName(dto.getFirstName());
+        studentDTO.setLastName(dto.getLastName());
+        studentDTO.setMail(dto.getMail());
+        studentDTO.setBirthDate(dto.getBirthDate());
+        studentDTO.setAcademicYearId(dto.getAcademicYearId());
+
+        // Utiliser le mapper pour convertir en entité Student
+        Student student = studentMapper.toEntity(studentDTO);
+
+        // Associer à l'utilisateur et sauvegarder
+        student.setUser(savedUser);
+        Student savedStudent = studentRepository.save(student);
+
+        // Établir la relation bidirectionnelle
+        savedUser.setStudent(savedStudent);
+        userRepository.save(savedUser);
+
+        // Utiliser le mapper pour convertir en DTO pour le retour
+        return studentMapper.toDTO(savedStudent);
     }
 
     /**

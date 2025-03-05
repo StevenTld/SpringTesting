@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/core")
+@RequestMapping("/api/core")
 public class CoreController {
 
     private final CoreServiceImpl coreService;

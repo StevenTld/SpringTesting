@@ -10,7 +10,7 @@ import java.util.List;
  */
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/academicyears")
+@RequestMapping("/api/academicyears")
 public class AcademicYearController {
 
     private final AcademicYearServiceImpl academicYearService;
