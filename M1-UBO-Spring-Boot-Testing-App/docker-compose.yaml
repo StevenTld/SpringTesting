@@ -7,4 +7,4 @@
     volumes:
       - ./data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "7070:3306"
