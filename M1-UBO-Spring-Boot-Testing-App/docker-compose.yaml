@@ -5,6 +5,6 @@
       MYSQL_ROOT_PASSWORD: monMotDePasseSuperSecret
       MYSQL_DATABASE: test
     volumes:
-      - /public/stalbou ./data:/var/lib/mysql
+      - ./data:/var/lib/mysql
     ports:
       - "3306:3306"
