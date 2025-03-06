@@ -1,6 +1,6 @@
-package com.example.clients;
+package com.clients;
 
-import com.example.dtos.StudentDTO;
+import com.dtos.StudentDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

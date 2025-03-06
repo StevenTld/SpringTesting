@@ -47,18 +47,7 @@ public class AuthServiceImpl {
         response.setUserId(user.getId());
         response.setEmail(user.getEmail());
 
-        // Ajouter les informations de l'étudiant si disponible
-        if (user.getStudent() != null) {
-            Student student = user.getStudent();
-            response.setFirstName(student.getFirstName());
-            response.setLastName(student.getLastName());
-            response.setStudentNumber(student.getStudentNumber());
 
-            if (student.getAcademicYear() != null) {
-                response.setAcademicYearId(student.getAcademicYear().getId());
-                response.setFormationName(student.getAcademicYear().getFormationName());
-            }
-        }
 
         return response;
     }
@@ -75,8 +64,9 @@ public class AuthServiceImpl {
 
         // Créer le nouvel utilisateur
         User user = new User();
-        user.setEmail("userDTO.getEmail()");
-        user.setPassword("userDTO.getPassword()");
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        user.setId(userDTO.getId());
 
         // Sauvegarder l'utilisateur
         User savedUser = userRepository.save(user);

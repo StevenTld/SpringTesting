@@ -2,6 +2,7 @@ package com.controllers;
 
 import com.dtos.LoginRequestDTO;
 import com.dtos.LoginResponseDTO;
+import com.dtos.UserDTO;
 import com.services.impl.AuthServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,22 @@ public class AuthController {
         }
     }
 
+    /**
+     * Enregistrement d'un nouvel utilisateur
+     */
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
+        try {
+            UserDTO createdUser = authService.register(userDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Erreur lors de l'inscription: " + e.getMessage()));
+        }
+    }
 
     /**
      * Classe pour représenter une réponse d'erreur
