@@ -19,6 +19,7 @@ public class StudentMapper {
     public StudentDTO toDTO(Student student) {
         if (student == null) return null;
         StudentDTO dto = new StudentDTO();
+
         dto.setStudentNumber(student.getStudentNumber());
         dto.setFirstName(student.getFirstName());
         dto.setLastName(student.getLastName());
@@ -36,9 +37,8 @@ public class StudentMapper {
     public Student toEntity(StudentDTO dto) {
         if (dto == null) return null;
         Student student = new Student();
-        if (dto.getStudentNumber() != null) {
-            student.setStudentNumber(dto.getStudentNumber());
-        }
+
+        student.setStudentNumber(dto.getStudentNumber());
         student.setFirstName(dto.getFirstName());
         student.setLastName(dto.getLastName());
         student.setMail(dto.getMail());

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long studentNumber; // Identifiant unique de l'étudiant
 
     private String lastName;    // Nom de famille
@@ -34,11 +34,5 @@ public class Student {
     @JoinColumn(name = "academic_year_id")
     private AcademicYear academicYear;
 
-    /**
-     * Lien avec l'utilisateur.
-     * Un étudiant est lié à un seul compte utilisateur.
-     */
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+
 }

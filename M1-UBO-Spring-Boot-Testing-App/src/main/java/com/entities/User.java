@@ -9,7 +9,7 @@ import lombok.Data;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -18,9 +18,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    // Relation avec Student (optionnelle)
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Student student;
+
 
 
 }
